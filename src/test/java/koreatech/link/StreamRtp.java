@@ -22,13 +22,14 @@ package koreatech.link;
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.headless.HeadlessMediaPlayer;
 import uk.co.caprica.vlcj.test.VlcjTest;
-
 /**
  * An example of how to stream a media file using RTP.
  * <p>
  * The client specifies an MRL of <code>rtp://@230.0.0.1:5555</code>
  */
 public class StreamRtp extends VlcjTest {
+    public static String fileSeprator = System.getProperty("file.separator");
+    public static String mediaFolder = fileSeprator + "usr" + fileSeprator + "local" + fileSeprator + "share";
 
     public static void main(String[] args) throws Exception {
         if(args.length != 3) {
@@ -36,7 +37,7 @@ public class StreamRtp extends VlcjTest {
             System.exit(1);
         }
 
-        String media = args[0];
+        String media = mediaFolder + fileSeprator + args[0];
         String options = formatRtpStream(args[1], Integer.parseInt(args[2]));
 
         System.out.println("Streaming '" + media + "' to '" + options + "'");
