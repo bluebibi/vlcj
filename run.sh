@@ -1,0 +1,1 @@
+mvn exec:java -Dexec.mainClass=uk.co.caprica.vlcj.test.direct.DirectTestPlayer -Djna.library.path=/Applications/VLC.app/Contents/MacOS/lib -DfailIfNoTests=false -Dexec.classpathScope=test -Dexec.args="$1"
