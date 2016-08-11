@@ -46,8 +46,7 @@ import java.util.Arrays;
  * <p>
  * The frame data may also be rendered into components such as an OpenGL texture.
  */
-public class DirectTestPlayer extends VlcjTest {
-
+public class MediaPlayer extends VlcjTest {
     // The size does NOT need to match the mediaPlayer size - it's the size that
     // the media will be scaled to
     // Matching the native size will be faster of course
@@ -69,7 +68,7 @@ public class DirectTestPlayer extends VlcjTest {
 
     private ImagePane imagePane;
 
-    public DirectTestPlayer(String media, String[] args) throws InterruptedException, InvocationTargetException {
+    public MediaPlayer(String media, String[] args) throws InterruptedException, InvocationTargetException {
         image = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().createCompatibleImage(width, height);
         image.setAccelerationPriority(1.0f);
 
@@ -118,7 +117,7 @@ public class DirectTestPlayer extends VlcjTest {
 
         String[] vlcArgs = (args.length == 1) ? new String[] {} : Arrays.copyOfRange(args, 1, args.length);
 
-        new DirectTestPlayer(args[0], vlcArgs);
+        new MediaPlayer(args[0], vlcArgs);
 
         // Application will not exit since the UI thread is running
     }
@@ -139,15 +138,15 @@ public class DirectTestPlayer extends VlcjTest {
             Graphics2D g2 = (Graphics2D)g;
             g2.drawImage(image, null, 0, 0);
             // You could draw on top of the image here...
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-            g2.setColor(Color.red);
-            g2.setComposite(AlphaComposite.SrcOver.derive(0.3f));
-            g2.fillRoundRect(100, 100, 100, 80, 32, 32);
-            g2.setComposite(AlphaComposite.SrcOver);
-            g2.setColor(Color.white);
-            g2.setFont(font);
-            g2.drawString("vlcj direct media player", 130, 150);
+            //g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            //g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+            //g2.setColor(Color.red);
+            //g2.setComposite(AlphaComposite.SrcOver.derive(0.3f));
+            //g2.fillRoundRect(100, 100, 100, 80, 32, 32);
+            //g2.setComposite(AlphaComposite.SrcOver);
+            //g2.setColor(Color.white);
+            //g2.setFont(font);
+            //g2.drawString("vlcj direct media player", 130, 150);
         }
     }
 
