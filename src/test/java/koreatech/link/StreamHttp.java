@@ -19,6 +19,13 @@
 
 package koreatech.link;
 
+
+import koreatech.link.service.OrchidService;
+import koreatech.link.service.VlcService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.headless.HeadlessMediaPlayer;
 import uk.co.caprica.vlcj.test.VlcjTest;
@@ -29,34 +36,21 @@ import uk.co.caprica.vlcj.test.VlcjTest;
  * The client specifies an MRL of <code>http://127.0.0.1:5555</code>
  */
 public class StreamHttp extends VlcjTest {
+    public static String fileSeparator = System.getProperty("file.separator");
+    public static String mediaFolder = fileSeparator + "usr" + fileSeparator + "local" + fileSeparator + "share";
 
     public static void main(String[] args) throws Exception {
-        if(args.length != 1) {
+        if(args.length != 3) {
             System.out.println("Specify a single MRL to stream");
             System.exit(1);
         }
 
-        String media = args[0];
-        String options = formatHttpStream("192.168.0.12", 5555);
+        StreamHttpThread streamHttpThread = new StreamHttpThread(args, mediaFolder, fileSeparator);
 
-        System.out.println("Streaming '" + media + "' to '" + options + "'");
-
-        MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory(args);
-        HeadlessMediaPlayer mediaPlayer = mediaPlayerFactory.newHeadlessMediaPlayer();
-        mediaPlayer.playMedia(media, options);
+        // 조건!!!!!!!!
+        streamHttpThread.start();
 
         // Don't exit
         Thread.currentThread().join();
-    }
-
-    private static String formatHttpStream(String serverAddress, int serverPort) {
-        StringBuilder sb = new StringBuilder(60);
-        sb.append(":sout=#duplicate{dst=std{access=http,mux=ts,");
-        sb.append("dst=");
-        sb.append(serverAddress);
-        sb.append(':');
-        sb.append(serverPort);
-        sb.append("}}");
-        return sb.toString();
     }
 }

@@ -33,7 +33,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.net.*;
 import java.util.Arrays;
 
 /**
@@ -109,7 +111,7 @@ public class MediaPlayer extends VlcjTest {
         mediaPlayer.nextChapter();
     }
 
-    public static void main(String[] args) throws InterruptedException, InvocationTargetException {
+    public static void main(String[] args) throws InterruptedException, InvocationTargetException, IOException {
         if(args.length < 1) {
             System.out.println("Specify a single media URL");
             System.exit(1);
@@ -117,9 +119,25 @@ public class MediaPlayer extends VlcjTest {
 
         String[] vlcArgs = (args.length == 1) ? new String[] {} : Arrays.copyOfRange(args, 1, args.length);
 
-        new MediaPlayer(args[0], vlcArgs);
 
+
+        new MediaPlayer(args[0], vlcArgs);
         // Application will not exit since the UI thread is running
+
+        //HTTP GET Request
+        ////////////////////////////////////////////////////////////////////
+        String url = args[0];
+
+        URL ogj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) ogj.openConnection();
+        con.setRequestMethod("GET");
+
+        int responseCode = con.getResponseCode();
+        String httpVersion = con.getContentType();
+        System.out.println("Response Code : " + responseCode);
+        System.out.println(httpVersion);
+        System.out.println(con.getContent());
+        ////////////////////////////////////////////////////////////////////
     }
 
     @SuppressWarnings("serial")

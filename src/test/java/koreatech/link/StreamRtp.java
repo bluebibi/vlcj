@@ -19,9 +19,17 @@
 
 package koreatech.link;
 
+import koreatech.link.service.OrchidService;
+import koreatech.link.service.VlcService;
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.headless.HeadlessMediaPlayer;
 import uk.co.caprica.vlcj.test.VlcjTest;
+
+import javax.xml.bind.DatatypeConverter;
+import java.nio.ByteBuffer;
+import java.security.MessageDigest;
+import java.util.Arrays;
+
 /**
  * An example of how to stream a media file using RTP.
  * <p>
@@ -31,6 +39,9 @@ public class StreamRtp extends VlcjTest {
     public static String fileSeprator = System.getProperty("file.separator");
     public static String mediaFolder = fileSeprator + "usr" + fileSeprator + "local" + fileSeprator + "share";
 
+    static OrchidService orchidService = new OrchidService();
+    static VlcService vlcService = new VlcService();
+
     public static void main(String[] args) throws Exception {
         if(args.length != 3) {
             System.out.println("Specify a single MRL to stream");
@@ -38,7 +49,7 @@ public class StreamRtp extends VlcjTest {
         }
 
         String media = mediaFolder + fileSeprator + args[0];
-        String options = formatRtpStream(args[1], Integer.parseInt(args[2]));
+        String options = vlcService.formatRtpStream(args[1], Integer.parseInt(args[2]));
 
         System.out.println("Streaming '" + media + "' to '" + options + "'");
 
@@ -53,17 +64,10 @@ public class StreamRtp extends VlcjTest {
             ":sout-keep"
         );
 
+        System.out.println("***************************");
+        System.out.println("ID: " + orchidService.getOrchidContentName(args[0]));
+
         // Don't exit
         Thread.currentThread().join();
-    }
-
-    private static String formatRtpStream(String serverAddress, int serverPort) {
-        StringBuilder sb = new StringBuilder(60);
-        sb.append(":sout=#rtp{dst=");
-        sb.append(serverAddress);
-        sb.append(",port=");
-        sb.append(serverPort);
-        sb.append(",mux=ts}");
-        return sb.toString();
     }
 }
